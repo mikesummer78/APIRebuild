@@ -40,7 +40,7 @@ public class Example1 extends ExampleBase {
 
     public static void main(String[] args) {
         String dbDriver = "org.sqlite.JDBC";
-        String dbUrl = "jdbc:sqlite:CADoptions.db";        
+        String dbUrl = "jdbc:sqlite:EURoptions.db";        
   
         Mydb db = new Mydb(dbDriver, dbUrl);
         try{
@@ -55,7 +55,7 @@ public class Example1 extends ExampleBase {
         }
         finally {            
         }         
-        new Example1("CAD").start();
+        new Example1("EUR").start();
 
         
     }
@@ -115,8 +115,8 @@ public class Example1 extends ExampleBase {
             }      
             eClientSocket.cancelMktData(requestId-1);
         
-            startStrike = Math.round(lastPrice*100);
-            intStartStrike = (int)startStrike * 10;  
+            startStrike = Math.round(lastPrice*1000);
+            intStartStrike = (int)startStrike;  
             endStrike = intStartStrike + 10;
             int numOpt = 0;
             System.out.println(intStartStrike);
@@ -129,7 +129,7 @@ public class Example1 extends ExampleBase {
                         break;
                     case 3: contractMonth = "V2";
                 }          
-                for (int j = intStartStrike - 15; j <= endStrike; j = j+5){
+                for (int j = intStartStrike - 10; j <= endStrike; j = j+5){
                     for (int k = 1; k<=2; k++){
                         switch (k){
                             case 1: rightCP = "C";
