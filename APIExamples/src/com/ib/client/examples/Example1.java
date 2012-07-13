@@ -31,6 +31,7 @@ public class Example1 extends ExampleBase {
     private int endStrike = 0;
     private int numMonths = 3; //(set to 3 for now), later to be read in from db
     private String myOptionSymbol;
+    private int numCur = 2;
     
 
     public Example1(String symbol) {
@@ -38,24 +39,28 @@ public class Example1 extends ExampleBase {
     }
 
     public static void main(String[] args) {
-        System.out.println(args.length);
-        Mydb db = new Mydb("org.sqlite.JDBC", "jdbc:sqlite:EURoptions.db");
- 
-        
+        String dbDriver = "org.sqlite.JDBC";
+        String dbUrl = "jdbc:sqlite:CADoptions.db";        
+  
+        Mydb db = new Mydb(dbDriver, dbUrl);
         try{
             db.executeStmt("drop table if exists options");
             db.executeStmt("create table options (id int, symbol String, lastPrice float, bidPrice float, askPrice float)");            
- //           db.executeStmt("insert into options values('opt1', 1.99)");
-   
-            
+//           db.executeStmt("insert into options values('opt1', 1.99)");
+
+
         }
         catch (SQLException e){
             e.printStackTrace();
         }
         finally {            
-        } 
+        }         
+        new Example1("CAD").start();
+
         
-        new Example1("EUR").start();
+    }
+        
+  //      new Example1("CAD").start();
         
 //        if (args.length != 1) {
   //          System.out.println(" Usage: java Example1 <symbol>");
@@ -65,10 +70,13 @@ public class Example1 extends ExampleBase {
         //}
         
         
-    }
+    
 
-    public void run() {
-        Mydb db = new Mydb("org.sqlite.JDBC", "jdbc:sqlite:EURoptions.db");
+    public void run() {   
+        String dbDriver = "org.sqlite.JDBC";
+        String dbUrl = "jdbc:sqlite:" + symbol + "options.db";
+        Mydb db = new Mydb(dbDriver, dbUrl);
+        
         boolean isSuccess = false;
         int waitCount = 0;
         int intStartStrike = 0;
@@ -77,12 +85,16 @@ public class Example1 extends ExampleBase {
         String expStrike = null;
         String rightCP = null;
         String stmt = null;
+        String strike = null;
         
+   
         switch(symbol){
             case "EUR": contractClass = "6E";
-            break;
+                break;
+            case "CAD": contractClass = "6C";
+                break;
         }        
-    
+        System.out.println("ContractClass = " + contractClass);
         DecimalFormat decFor = new DecimalFormat ("00.00000");
         
         try{
@@ -101,11 +113,11 @@ public class Example1 extends ExampleBase {
                     waitCount++;
                 }
             }      
-        
+            eClientSocket.cancelMktData(requestId-1);
         
             startStrike = Math.round(lastPrice*100);
             intStartStrike = (int)startStrike * 10;  
-            endStrike = intStartStrike + 15;
+            endStrike = intStartStrike + 10;
             int numOpt = 0;
             System.out.println(intStartStrike);
 
@@ -117,15 +129,21 @@ public class Example1 extends ExampleBase {
                         break;
                     case 3: contractMonth = "V2";
                 }          
-                for (int j = intStartStrike - 10; j <= endStrike; j = j+5){
+                for (int j = intStartStrike - 15; j <= endStrike; j = j+5){
                     for (int k = 1; k<=2; k++){
                         switch (k){
                             case 1: rightCP = "C";
                                 break;
                             case 2: rightCP = "P";
                         }
-                    
-                        myOptionSymbol = contractClass + contractMonth + " " + rightCP + String.valueOf(j);                      
+                        if (j >= 1000){
+                            strike = String.valueOf(j);
+                        }
+                        else {
+                            strike = "0" + String.valueOf(j);
+                        }
+                            
+                        myOptionSymbol = contractClass + contractMonth + " " + rightCP + strike;                      
                         isSuccess = false;
                         waitCount = 0;   
                         lastPrice = askPrice = bidPrice = 0;
@@ -134,12 +152,13 @@ public class Example1 extends ExampleBase {
                         Contract optionContract = createMyOptionContract(myOptionSymbol, "FOP", "GLOBEX", "USD", requestId+1);
                     // Requests snapshot market data
                         eClientSocket.reqMktData(requestId++, optionContract, "", false);            
-                    //get offer price
-                        tickPrice(requestId, 2, askPrice, 0);            
+ 
+                        //get offer price
+                 //      tickPrice(requestId, 2, askPrice, 0);            
                     //get bid price
-                        tickPrice(requestId, 1, bidPrice, 0);            
+                   //     tickPrice(requestId, 1, bidPrice, 0);            
                     //get last price
-                        tickPrice(requestId, 4, lastPrice, 0);   
+                     //   tickPrice(requestId, 4, lastPrice, 0);   
 
                         while (!isSuccess && waitCount < MAX_WAIT_COUNT) {             
                         // Check if last price loaded
@@ -152,7 +171,7 @@ public class Example1 extends ExampleBase {
                                 waitCount++;
                             }
                         }
-
+                        eClientSocket.cancelMktData(requestId-1);
                         numOpt++;
                     // Display results
                         if (isSuccess) {

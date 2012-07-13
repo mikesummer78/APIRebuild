@@ -20,7 +20,7 @@ public abstract class ExampleBase extends Thread implements EWrapper {
     protected final static int TWS_PORT = 7496;
     protected final static int TWS_CLIENT_ID = 1;
     protected final static int MAX_WAIT_COUNT = 3; // 15 secs (I changed it to 5)
-    protected final static int WAIT_TIME = 1000; // 1 sec
+    protected final static int WAIT_TIME = 250; // 1 sec
 
     protected void connectToTWS() {
         eClientSocket.eConnect(TWS_HOST, TWS_PORT, TWS_CLIENT_ID);
