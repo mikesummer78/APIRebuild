@@ -116,7 +116,9 @@ public class Example1 extends ExampleBase {
             eClientSocket.cancelMktData(requestId-1);
         
             startStrike = Math.round(lastPrice*1000);
-            intStartStrike = (int)startStrike;  
+            intStartStrike = (int)startStrike;              
+            intStartStrike = intStartStrike - (intStartStrike % 5);            
+            
             endStrike = intStartStrike + 10;
             int numOpt = 0;
             System.out.println(intStartStrike);
