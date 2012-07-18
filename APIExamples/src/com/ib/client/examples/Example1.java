@@ -88,12 +88,14 @@ public class Example1 extends ExampleBase {
         String strike = null;
         
    
-        switch(symbol){
-            case "EUR": contractClass = "6E";
-                break;
-            case "CAD": contractClass = "6C";
-                break;
-        }        
+        if (symbol == "EUR"){
+            contractClass = "6E";
+        }
+
+        if (symbol == "CAD"){
+            contractClass = "6C";
+        }
+      
         System.out.println("ContractClass = " + contractClass);
         DecimalFormat decFor = new DecimalFormat ("00.00000");
         
