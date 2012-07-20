@@ -40,7 +40,7 @@ public class Example1 extends ExampleBase {
 
     public static void main(String[] args) {
         String dbDriver = "org.sqlite.JDBC";
-        String dbUrl = "jdbc:sqlite:EURoptions.db";        
+        String dbUrl = "jdbc:sqlite:CADoptions.db";        
   
         Mydb db = new Mydb(dbDriver, dbUrl);
         try{
@@ -55,7 +55,7 @@ public class Example1 extends ExampleBase {
         }
         finally {            
         }         
-        new Example1("EUR").start();
+        new Example1("CAD").start();
 
         
     }
@@ -206,7 +206,7 @@ public class Example1 extends ExampleBase {
                 total++;
                 if (rs.getDouble("askPrice")==0 && rs.getDouble("bidPrice")==0 && rs.getDouble("lastPrice")==0){
                     fail++;
-                    System.out.println(rs.getString("symbol"));
+                   // System.out.println(rs.getString("symbol"));
                 }
                 else{
                     success++;
