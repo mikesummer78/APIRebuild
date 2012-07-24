@@ -1,1 +1,27 @@
-hello
+This app connects to IB via either IB Gateway or TWS and gets option data for
+Foreign Exchange rates.
+
+First, make sure you have downloaded Java and the most current version of JDK.
+
+Next download and install TWS and IBgateway from:
+
+http://individuals.interactivebrokers.com/en/main.php
+
+It can be found under the trading tab.  It is easiest to set permanent aliases
+in your .bashrc file to run TWS or IBgateway, as the command is rather lengthy
+
+Next download the NetBeans IDE:
+
+netbeans.org
+
+To run the app, you must have TWS or IB gateway running.  You can either run it
+from NetBeans or from the command line.
+
+From NetBeans, right click on the GetData project and click on Properties.
+Under the Run Tab, enter the 3-letter globex symbols for currencies you want
+to retrieve separated by a space (EUR CAD)
+
+To run the app from the command line:
+cd into the APIRebuild/dist directory and run:
+java -jar GetData.jar EUR CAD
+or whatever currencies you want.

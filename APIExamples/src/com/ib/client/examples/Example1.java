@@ -39,23 +39,32 @@ public class Example1 extends ExampleBase {
     }
 
     public static void main(String[] args) {
-        String dbDriver = "org.sqlite.JDBC";
-        String dbUrl = "jdbc:sqlite:CADoptions.db";        
-  
-        Mydb db = new Mydb(dbDriver, dbUrl);
-        try{
-            db.executeStmt("drop table if exists options");
-            db.executeStmt("create table options (id int, symbol String, lastPrice float, bidPrice float, askPrice float)");            
-//           db.executeStmt("insert into options values('opt1', 1.99)");
+        for (int i = 0; i < args.length; i++){
+            String dbDriver = "org.sqlite.JDBC";
+            String dbUrl = "jdbc:sqlite:" + args[i] + "options.db";        
+
+            Mydb db = new Mydb(dbDriver, dbUrl);
+            try{
+                db.executeStmt("drop table if exists options");
+                db.executeStmt("create table options (id int, symbol String, lastPrice float, bidPrice float, askPrice float)");            
+    //           db.executeStmt("insert into options values('opt1', 1.99)");
 
 
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+            finally {            
+            }         
+            new Example1(args[i]).start();
+            try{
+                sleep(20000);
+            }
+            catch (Throwable t){
+                
+            }
+            
         }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-        finally {            
-        }         
-        new Example1("CAD").start();
 
         
     }
@@ -75,6 +84,8 @@ public class Example1 extends ExampleBase {
     public void run() {   
         String dbDriver = "org.sqlite.JDBC";
         String dbUrl = "jdbc:sqlite:" + symbol + "options.db";
+        System.out.println(symbol);
+        
         Mydb db = new Mydb(dbDriver, dbUrl);
         
         boolean isSuccess = false;
@@ -88,11 +99,11 @@ public class Example1 extends ExampleBase {
         String strike = null;
         
    
-        if (symbol == "EUR"){
+        if (symbol.equals("EUR")){
             contractClass = "6E";
         }
 
-        if (symbol == "CAD"){
+        if (symbol.equals("CAD")){
             contractClass = "6C";
         }
       
