@@ -17,7 +17,7 @@ public abstract class ExampleBase extends Thread implements EWrapper {
 
     protected EClientSocket eClientSocket = new EClientSocket(this);
     protected final static String TWS_HOST = "localhost";
-    protected final static int TWS_PORT = 4001;  //7496 for TWS 4001 for IBgateway
+    protected final static int TWS_PORT = 7496;  //7496 for TWS 4001 for IBgateway
     protected final static int TWS_CLIENT_ID = 1;
     protected final static int MAX_WAIT_COUNT = 3; // 15 secs (I changed it to 5)
     protected final static int WAIT_TIME = 250; // 1 sec

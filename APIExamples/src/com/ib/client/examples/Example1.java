@@ -58,7 +58,7 @@ public class Example1 extends ExampleBase {
             }         
             new Example1(args[i]).start();
             try{
-                sleep(20000);
+                sleep(10000);
             }
             catch (Throwable t){
                 
@@ -132,7 +132,7 @@ public class Example1 extends ExampleBase {
             intStartStrike = (int)startStrike;              
             intStartStrike = intStartStrike - (intStartStrike % 5);            
             
-            endStrike = intStartStrike + 10;
+            endStrike = intStartStrike + 5;
             int numOpt = 0;
             System.out.println(intStartStrike);
 
@@ -144,7 +144,7 @@ public class Example1 extends ExampleBase {
                         break;
                     case 3: contractMonth = "V2";
                 }          
-                for (int j = intStartStrike - 10; j <= endStrike; j = j+5){
+                for (int j = intStartStrike - 5; j <= endStrike; j = j+5){
                     for (int k = 1; k<=2; k++){
                         switch (k){
                             case 1: rightCP = "C";
