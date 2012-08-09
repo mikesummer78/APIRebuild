@@ -11,7 +11,21 @@ import java.sql.*;
  */
 public class Mydb extends DatabaseInterface{
     
-    public Mydb (String sDriverKey, String sUrlKey) {
+    public Mydb (String sDriverKey, String sUrlKey, String userNameKey, String passwordKey) {
+        try{
+            init (sDriverKey, sUrlKey, userNameKey, passwordKey);
+            
+        }
+        catch (Exception e){         
+            e.printStackTrace();
+        }
+        finally {
+            
+        }
+        
+    }
+    
+       public Mydb (String sDriverKey, String sUrlKey) {
         try{
             init (sDriverKey, sUrlKey);
             
@@ -25,6 +39,16 @@ public class Mydb extends DatabaseInterface{
         
     }
     
+    public void init(String sDriverVar, String sUrlVar, String userNameVar, String passwordVar) throws Exception {
+        setDriver(sDriverVar);
+        setUrl(sUrlVar);
+        userName = userNameVar;
+        password = passwordVar;
+        setConnection();
+        setStatement();       
+        System.out.println("End of init");
+    }
+
     public void init(String sDriverVar, String sUrlVar) throws Exception {
         setDriver(sDriverVar);
         setUrl(sUrlVar);
@@ -32,7 +56,7 @@ public class Mydb extends DatabaseInterface{
         setStatement();       
         System.out.println("End of init");
     }
-
+    
     private void setDriver(String sDriverVar)
     {
     sDriver = sDriverVar;
@@ -45,7 +69,7 @@ public class Mydb extends DatabaseInterface{
 
     public  void setConnection() throws Exception {
         Class.forName(sDriver);    
-        conn = DriverManager.getConnection(sUrl);
+        conn = DriverManager.getConnection(sUrl, userName, password);
     }
 
 

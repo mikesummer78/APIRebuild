@@ -8,6 +8,8 @@ abstract class DatabaseInterface {
  
     public  String sDriver = ""; 
     public  String sUrl = null;
+    public  String userName = null;
+    public  String password = null;
     public  int iTimeout = 30;
     public  Connection conn = null;
     public  Statement statement = null;

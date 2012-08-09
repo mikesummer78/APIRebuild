@@ -7,6 +7,7 @@ import com.ib.client.EWrapper;
 import com.ib.client.Execution;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
+import java.lang.Object;
 
 /**
  * Base class providing default implementation of all EWrapper methods.
@@ -71,13 +72,31 @@ public abstract class ExampleBase extends Thread implements EWrapper {
         return contract;
     }
     
-    protected Contract createMyOptionContract(String symbol, String securityType, String exchange, String currency, int id) {
+    protected Contract createFutOptionContract(String symbol, String securityType, String exchange, String currency, int id) {
         Contract contract = new Contract();
         contract.m_localSymbol = symbol;
         contract.m_secType = securityType;
         contract.m_exchange = contract.m_primaryExch = exchange;
         contract.m_currency = currency;
         contract.m_conId = id;
+//        contract.m_symbol = "";
+        
+        return contract;
+    }
+    protected Contract createEtfOptionContract(String contractClass, String symbol, String securityType, String exchange, String currency, String expMonth, double strike, String right, int id) {
+        Contract contract = new Contract();
+        contract.m_localSymbol = symbol;
+        contract.m_secType = securityType;
+        contract.m_exchange = exchange;
+        contract.m_currency = currency;
+        contract.m_conId = id;
+        contract.m_expiry = expMonth;
+        contract.m_strike = strike;
+        contract.m_right = right;
+        contract.m_symbol = contractClass;
+        contract.m_multiplier = "100";
+        
+        
 //        contract.m_symbol = "";
         
         return contract;
